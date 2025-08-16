@@ -9,6 +9,9 @@ export interface Meeting {
   dateTime: string;
   code: string;
   type: string;
+  participants?: Array<{
+    name: string;
+  }>;
 }
 
 export function useMeetings() {
