@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import RoomDetailClient from './RoomDetailClient';
+import RoomDetailClient from '@/app/room/[code]/RoomDetailClient';
 
 interface PageProps {
   params: {
@@ -14,6 +14,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function RoomDetailPage({ params }: PageProps) {
+export default async function RoomDetailPage({ params }: PageProps) {
   return <RoomDetailClient code={params.code} />;
 }
