@@ -2,17 +2,20 @@ import React from 'react';
 import { Metadata } from 'next';
 import RoomDetailClient from '@/app/room/[code]/RoomDetailClient';
 
-type Props = {
-  params: { code: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+interface PageProps {
+  params: Promise<{ code: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
   return {
-    title: `Room ${params.code} - Plan/Lab`,
+    title: `Room ${resolvedParams.code} - Plan/Lab`,
+    description: `Meeting room details for code: ${resolvedParams.code}`,
   };
 }
 
-export default function RoomDetailPage({ params }: Props) {
-  return <RoomDetailClient code={params.code} />;
+export default async function RoomDetailPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  return <RoomDetailClient code={resolvedParams.code} />;
 }
