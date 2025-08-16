@@ -28,7 +28,7 @@ type MeetingData = z.infer<typeof MeetingSchema>;
 interface CreateMeetingModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onMeetingCreate: (meeting: any) => void;
+  onMeetingCreate: (meeting: MeetingData & { id: string; code: string; type: string }) => void;
 }
 
 export default function CreateMeetingModal({
@@ -95,15 +95,15 @@ export default function CreateMeetingModal({
       setCurrentParticipant({ name: '', email: '', role: '' });
       setParticipantErrors({});
     } catch (error) {
-      if (error instanceof z.ZodError && error.errors && error.errors.length > 0) {
-        const errorMessages = error.errors.reduce((acc, curr) => {
+      if (error instanceof z.ZodError) {
+        const errorMessages = error.issues.reduce((acc: { [key: string]: string }, curr: z.ZodIssue) => {
           const path = curr.path && curr.path.length > 0 ? curr.path[0] : 'general';
-          acc[path as string] = curr.message;
+          acc[path.toString()] = curr.message;
           return acc;
-        }, {} as { [key: string]: string });
+        }, {});
 
         const firstErrorMessage = Object.values(errorMessages)[0];
-        toast.error(firstErrorMessage, {
+        toast.error(firstErrorMessage || 'Validation error', {
           position: "top-right",
           autoClose: 3000
         });
@@ -173,15 +173,15 @@ export default function CreateMeetingModal({
       onMeetingCreate(meetingInfo);
       onClose();
     } catch (error) {
-      if (error instanceof z.ZodError && error.errors && error.errors.length > 0) {
-        const errorMessages = error.errors.reduce((acc, curr) => {
+      if (error instanceof z.ZodError) {
+        const errorMessages = error.issues.reduce((acc: { [key: string]: string }, curr: z.ZodIssue) => {
           const path = curr.path && curr.path.length > 0 ? curr.path[0] : 'general';
-          acc[path as string] = curr.message;
+          acc[path.toString()] = curr.message;
           return acc;
-        }, {} as { [key: string]: string });
+        }, {});
 
         const firstErrorMessage = Object.values(errorMessages)[0];
-        toast.error(firstErrorMessage, {
+        toast.error(firstErrorMessage || 'Validation error', {
           position: "top-right",
           autoClose: 3000
         });

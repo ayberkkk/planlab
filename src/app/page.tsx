@@ -9,9 +9,9 @@ import { useMeetings } from './hooks/useMeetings';
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { meetings, addMeeting } = useMeetings();
+  const { addMeeting } = useMeetings();
 
-  const handleMeetingCreate = (meetingData: any) => {
+  const handleMeetingCreate = (meetingData: { id: string; code: string; type: string; title: string; participantCount: number; dateTime: string; participants?: { name: string; email: string; role?: string }[] }) => {
     addMeeting(meetingData);
   };
 
