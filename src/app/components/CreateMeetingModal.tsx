@@ -3,21 +3,20 @@
 import React, { useState, useRef } from 'react';
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Alert } from './Alert';
 
 // Zod şeması ile form validasyonu
 const ParticipantSchema = z.object({
   name: z.string().min(2, { message: "İsim en az 2 karakter olmalıdır" }),
-  email: z.string().email({ message: "Geçerli bir e-posta adresi girin" }),
+  email: z.string().email({ message: "Geçerli bir e-posta adresi giriniz" }),
   role: z.string().optional()
 });
 
 const MeetingSchema = z.object({
   title: z.string().min(3, { message: "Toplantı başlığı en az 3 karakter olmalıdır" }),
-  participantCount: z.number().int().min(1).max(15, { message: "Katılımcı sayısı 1-15 arasında olmalıdır" }),
+  participantCount: z.number().int().min(1).max(15, { message: "Katılımcı sayısı 1 ile 15 arasında olmalıdır" }),
   dateTime: z.string().refine((val) => new Date(val) > new Date(), {
-    message: "Toplantı tarihi şu andan ileri bir tarih olmalıdır"
+    message: "Toplantı tarihi gelecekte bir tarih olmalıdır"
   }),
   participants: z.array(ParticipantSchema).optional()
 });
@@ -49,14 +48,15 @@ export default function CreateMeetingModal({
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [participantErrors, setParticipantErrors] = useState<{ [key: string]: string }>({});
+  const [editingParticipantIndex, setEditingParticipantIndex] = useState<number | null>(null);
 
   const dateInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
 
   const determineMeetingType = (count: number) => {
-    if (count >= 1 && count <= 5) return 'Düşük Yoğunlukta';
-    if (count >= 6 && count <= 10) return 'Orta Ölçekli';
-    return 'Büyük Toplantı';
+    if (count >= 1 && count <= 5) return 'Low Intensity';
+    if (count >= 6 && count <= 10) return 'Medium Scale';
+    return 'Large Meeting';
   };
 
   const handleMainFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -75,22 +75,54 @@ export default function CreateMeetingModal({
     }));
   };
 
-  const addParticipant = () => {
+  const startEditingParticipant = (index: number) => {
+    const participant = formData.participants?.[index];
+    if (participant) {
+      setCurrentParticipant(participant);
+      setEditingParticipantIndex(index);
+    }
+  };
+
+  const addOrUpdateParticipant = () => {
     try {
       const validatedParticipant = ParticipantSchema.parse(currentParticipant);
 
-      if ((formData.participants?.length || 0) >= formData.participantCount) {
-        toast.error(`En fazla ${formData.participantCount} katılımcı ekleyebilirsiniz`, {
-          position: "top-right",
-          autoClose: 3000
-        });
-        return;
-      }
+      if (editingParticipantIndex !== null) {
+        // Update existing participant
+        setFormData(prev => ({
+          ...prev,
+          participants: prev.participants?.map((p, idx) => 
+            idx === editingParticipantIndex ? validatedParticipant : p
+          )
+        }));
 
-      setFormData(prev => ({
-        ...prev,
-        participants: [...(prev.participants || []), validatedParticipant]
-      }));
+        Alert.success(`${validatedParticipant.name} katılımcısı başarıyla güncellendi!`, {
+          style: {
+            fontSize: '14px',
+            fontWeight: '500'
+          }
+        });
+
+        setEditingParticipantIndex(null);
+      } else {
+        // Add new participant
+        if ((formData.participants?.length || 0) >= formData.participantCount) {
+          Alert.error(`En fazla ${formData.participantCount} katılımcı ekleyebilirsiniz`);
+          return;
+        }
+
+        setFormData(prev => ({
+          ...prev,
+          participants: [...(prev.participants || []), validatedParticipant]
+        }));
+
+        Alert.success(`${validatedParticipant.name} katılımcısı başarıyla eklendi!`, {
+          style: {
+            fontSize: '14px',
+            fontWeight: '500'
+          }
+        });
+      }
 
       setCurrentParticipant({ name: '', email: '', role: '' });
       setParticipantErrors({});
@@ -103,26 +135,30 @@ export default function CreateMeetingModal({
         }, {});
 
         const firstErrorMessage = Object.values(errorMessages)[0];
-        toast.error(firstErrorMessage || 'Validation error', {
-          position: "top-right",
-          autoClose: 3000
-        });
+        Alert.error(firstErrorMessage || 'Doğrulama hatası');
 
         setParticipantErrors(errorMessages);
       } else {
-        toast.error('Katılımcı bilgileri geçerli değil', {
-          position: "top-right",
-          autoClose: 3000
-        });
+        Alert.error('Geçersiz katılımcı bilgileri');
       }
     }
   };
 
   const removeParticipant = (index: number) => {
+    const participantName = formData.participants?.[index]?.name;
     setFormData(prev => ({
       ...prev,
       participants: prev.participants?.filter((_, i) => i !== index)
     }));
+    
+    if (participantName) {
+      Alert.info(`${participantName} katılımcısı silindi`, {
+        style: {
+          fontSize: '14px',
+          fontWeight: '500'
+        }
+      });
+    }
   };
 
   const handleDateTimeChange = () => {
@@ -149,10 +185,7 @@ export default function CreateMeetingModal({
       const validatedData = MeetingSchema.parse(formData);
 
       if (!formData.participants || formData.participants.length === 0) {
-        toast.error('En az bir katılımcı eklenmelidir', {
-          position: "top-right",
-          autoClose: 3000
-        });
+        Alert.error('En az bir katılımcı eklemelisiniz');
         return;
       }
 
@@ -165,9 +198,13 @@ export default function CreateMeetingModal({
         type: determineMeetingType(validatedData.participantCount)
       };
 
-      toast.success(`Toplantı Oluşturuldu: ${meetingCode}`, {
-        position: "top-right",
-        autoClose: 3000
+      Alert.success(`🎉 Toplantı Başarıyla Oluşturuldu!\n\nToplantı Kodu: ${meetingCode}`, {
+        style: {
+          fontSize: '16px',
+          fontWeight: '600',
+          lineHeight: '1.5'
+        },
+        autoClose: 5000
       });
 
       onMeetingCreate(meetingInfo);
@@ -181,17 +218,11 @@ export default function CreateMeetingModal({
         }, {});
 
         const firstErrorMessage = Object.values(errorMessages)[0];
-        toast.error(firstErrorMessage || 'Validation error', {
-          position: "top-right",
-          autoClose: 3000
-        });
+        Alert.error(firstErrorMessage || 'Doğrulama hatası');
 
         setErrors(errorMessages);
       } else {
-        toast.error('Toplantı bilgileri geçerli değil', {
-          position: "top-right",
-          autoClose: 3000
-        });
+        Alert.error('Geçersiz toplantı bilgileri. Lütfen girdiğiniz bilgileri kontrol edin.');
       }
     }
   };
@@ -200,7 +231,6 @@ export default function CreateMeetingModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <ToastContainer />
       <div className="w-full max-w-5xl flex bg-[#1E1E1E] rounded-2xl shadow-2xl overflow-hidden">
         {/* Sol Taraf - Form */}
         <div className="w-2/3 p-8 space-y-6">
@@ -356,7 +386,7 @@ export default function CreateMeetingModal({
               </div>
               <button
                 type="button"
-                onClick={addParticipant}
+                onClick={addOrUpdateParticipant}
                 className="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden  w-full
             font-semibold text-white transition duration-300 ease-out 
             border-2 border-white/20 rounded-full 
@@ -369,7 +399,7 @@ export default function CreateMeetingModal({
               >
                 <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-50 transition-all duration-500 rounded-full blur-lg"></span>
                 <span className="relative z-10 flex items-center">
-                  Katılımcı Ekle
+                  {editingParticipantIndex !== null ? 'Katılımcıyı Güncelle' : 'Katılımcı Ekle'}
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
@@ -423,15 +453,27 @@ export default function CreateMeetingModal({
                       <p className="text-gray-500 text-xs mt-1">({participant.role})</p>
                     )}
                   </div>
-                  <button
-                    onClick={() => removeParticipant(index)}
-                    className="text-red-500 hover:text-red-700"
-                    title="Katılımcıyı Sil"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                    </svg>
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => startEditingParticipant(index)}
+                      className="text-blue-500 hover:text-blue-700"
+                      title="Katılımcıyı Düzenle"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                        <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => removeParticipant(index)}
+                      className="text-red-500 hover:text-red-700"
+                      title="Katılımcıyı Sil"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

@@ -1,28 +1,28 @@
-# plan/lab - Modern Toplantı Planlama ve Yönetim Platformu
+# plan/lab - Modern Meeting Planning and Management Platform
 
-## 📋 Proje Hakkında
+## 📋 About the Project
 
-Plan:Lab, modern ve kullanıcı dostu bir toplantı planlama ve yönetim platformudur. Kullanıcıların toplantılarını kolayca oluşturmasını, yönetmesini ve takip etmesini sağlar.
+Plan:Lab is a modern and user-friendly meeting planning and management platform. It enables users to easily create, manage, and track their meetings.
 
-## 🚀 Özellikler
+## 🚀 Features
 
-- **Toplantı Oluşturma**
-  - Özelleştirilebilir toplantı başlıkları
-  - Katılımcı sayısı belirleme
-  - Otomatik toplantı kodu oluşturma
-  - Tarih ve saat planlama
+- **Meeting Creation**
+  - Customizable meeting titles
+  - Participant capacity setting
+  - Automatic meeting code generation
+  - Date and time scheduling
 
-- **Katılımcı Yönetimi**
-  - Katılımcı ekleme ve düzenleme
-  - Rol tabanlı katılımcı yönetimi
-  - E-posta entegrasyonu
+- **Participant Management**
+  - Add and edit participants
+  - Role-based participant management
+  - Email integration
 
-- **Toplantı Takibi**
-  - Toplantı durumu izleme (Planlandı, Bugün, Tamamlandı)
-  - Toplantı tipi kategorilendirme (Düşük Yoğunlukta, Orta Ölçekli, Büyük Toplantı)
-  - Toplantı geçmişi
+- **Meeting Tracking**
+  - Meeting status monitoring (Planned, Today, Completed)
+  - Meeting type categorization (Low Intensity, Medium Scale, Large Meeting)
+  - Meeting history
 
-## 🛠 Teknolojiler
+## 🛠 Technologies
 
 - Next.js
 - TypeScript
@@ -30,35 +30,35 @@ Plan:Lab, modern ve kullanıcı dostu bir toplantı planlama ve yönetim platfor
 - React Hooks
 - Local Storage
 
-## 🔧 Kurulum
+## 🔧 Installation
 
-1. Projeyi klonlayın:
-\`\`\`bash
+1. Clone the project:
+```bash
 git clone [repo-url]
-\`\`\`
+```
 
-2. Bağımlılıkları yükleyin:
-\`\`\`bash
+2. Install dependencies:
+```bash
 npm install
-\`\`\`
+```
 
-3. Geliştirme sunucusunu başlatın:
-\`\`\`bash
+3. Start the development server:
+```bash
 npm run dev
-\`\`\`
+```
 
-## 💡 Kullanım
+## 💡 Usage
 
-1. Ana sayfada "Toplantı Oluştur" butonuna tıklayın
-2. Toplantı detaylarını (başlık, katılımcı sayısı, tarih/saat) girin
-3. Katılımcıları ekleyin
-4. Toplantıyı oluşturun ve otomatik oluşturulan toplantı kodunu alın
-5. Toplantı listesinden toplantılarınızı yönetin ve takip edin
+1. Click "Create Meeting" button on the homepage
+2. Enter meeting details (title, participant count, date/time)
+3. Add participants
+4. Create the meeting and receive the automatically generated meeting code
+5. Manage and track your meetings from the meeting list
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-1. Fork edin
-2. Feature branch oluşturun (\`git checkout -b feature/AmazingFeature\`)
-3. Değişikliklerinizi commit edin (\`git commit -m 'Add some AmazingFeature'\`)
-4. Branch'inizi push edin (\`git push origin feature/AmazingFeature\`)
-5. Pull Request oluşturun
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Create a Pull Request
