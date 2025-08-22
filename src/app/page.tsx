@@ -7,7 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import CreateMeetingModal from './components/CreateMeetingModal';
 import { useMeetings } from './hooks/useMeetings';
 
+import { initializeTestData } from './utils/initializeTestData';
+
 export default function Home() {
+  // Test verisini başlat
+  React.useEffect(() => {
+    initializeTestData();
+  }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { addMeeting } = useMeetings();
 

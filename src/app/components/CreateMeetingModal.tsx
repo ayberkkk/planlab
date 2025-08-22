@@ -4,12 +4,16 @@ import React, { useState, useRef } from 'react';
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import { Alert } from './Alert';
+import { Meeting, Participant, MeetingDuration } from '../types/meeting';
+import ParticipantStatusBadge from './ParticipantStatusBadge';
 
 // Zod şeması ile form validasyonu
 const ParticipantSchema = z.object({
+  id: z.string().default(() => uuidv4()),
   name: z.string().min(2, { message: "İsim en az 2 karakter olmalıdır" }),
   email: z.string().email({ message: "Geçerli bir e-posta adresi giriniz" }),
-  role: z.string().optional()
+  role: z.string().optional(),
+  status: z.enum(['pending', 'accepted', 'declined']).default('pending')
 });
 
 const MeetingSchema = z.object({
@@ -18,7 +22,21 @@ const MeetingSchema = z.object({
   dateTime: z.string().refine((val) => new Date(val) > new Date(), {
     message: "Toplantı tarihi gelecekte bir tarih olmalıdır"
   }),
-  participants: z.array(ParticipantSchema).optional()
+  participants: z.array(ParticipantSchema).default([]),
+  duration: z.object({
+    status: z.enum(['scheduled', 'in_progress', 'completed', 'cancelled']).default('scheduled'),
+    startTime: z.string().optional(),
+    endTime: z.string().optional(),
+    duration: z.number().optional()
+  }).default({ status: 'scheduled' }),
+  notes: z.array(z.object({
+    id: z.string(),
+    content: z.string(),
+    createdAt: z.string(),
+    createdBy: z.string()
+  })).optional(),
+  createdAt: z.string().default(() => new Date().toISOString()),
+  updatedAt: z.string().default(() => new Date().toISOString())
 });
 
 type ParticipantData = z.infer<typeof ParticipantSchema>;
@@ -449,9 +467,12 @@ export default function CreateMeetingModal({
                   <div>
                     <p className="font-semibold text-white">{participant.name}</p>
                     <p className="text-gray-400 text-sm">{participant.email}</p>
-                    {participant.role && (
-                      <p className="text-gray-500 text-xs mt-1">({participant.role})</p>
-                    )}
+                    <div className="flex items-center gap-2 mt-1">
+                      <ParticipantStatusBadge status={participant.status} />
+                      {participant.role && (
+                        <p className="text-gray-500 text-xs">({participant.role})</p>
+                      )}
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <button

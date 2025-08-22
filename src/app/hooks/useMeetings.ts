@@ -1,18 +1,8 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-
-export interface Meeting {
-  id: string;
-  title: string;
-  participantCount: number;
-  dateTime: string;
-  code: string;
-  type: string;
-  participants?: Array<{
-    name: string;
-  }>;
-}
+import { v4 as uuidv4 } from 'uuid';
+import { Meeting, Participant, MeetingDuration, MeetingNote } from '../types/meeting';
 
 export function useMeetings() {
   const [meetings, setMeetings] = useState<Meeting[]>([]);
@@ -48,5 +38,80 @@ export function useMeetings() {
     localStorage.setItem('plan/lab-rooms', JSON.stringify(updatedMeetings));
   };
 
-  return { meetings, addMeeting, removeMeeting };
+  const updateParticipantStatus = (
+    meetingId: string,
+    participantId: string,
+    status: Participant['status']
+  ) => {
+    const updatedMeetings = meetings.map(meeting => {
+      if (meeting.id === meetingId) {
+        return {
+          ...meeting,
+          participants: meeting.participants.map(participant => 
+            participant.id === participantId 
+              ? { ...participant, status }
+              : participant
+          ),
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return meeting;
+    });
+
+    setMeetings(updatedMeetings);
+    localStorage.setItem('plan/lab-rooms', JSON.stringify(updatedMeetings));
+  };
+
+  const updateMeetingDuration = (
+    meetingId: string,
+    duration: Partial<MeetingDuration>
+  ) => {
+    const updatedMeetings = meetings.map(meeting => {
+      if (meeting.id === meetingId) {
+        return {
+          ...meeting,
+          duration: { ...meeting.duration, ...duration },
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return meeting;
+    });
+
+    setMeetings(updatedMeetings);
+    localStorage.setItem('plan/lab-rooms', JSON.stringify(updatedMeetings));
+  };
+
+  const addMeetingNote = (
+    meetingId: string,
+    note: Omit<MeetingNote, 'id' | 'createdAt'>
+  ) => {
+    const updatedMeetings = meetings.map(meeting => {
+      if (meeting.id === meetingId) {
+        const newNote: MeetingNote = {
+          ...note,
+          id: uuidv4(),
+          createdAt: new Date().toISOString()
+        };
+
+        return {
+          ...meeting,
+          notes: [...(meeting.notes || []), newNote],
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return meeting;
+    });
+
+    setMeetings(updatedMeetings);
+    localStorage.setItem('plan/lab-rooms', JSON.stringify(updatedMeetings));
+  };
+
+  return { 
+    meetings, 
+    addMeeting, 
+    removeMeeting,
+    updateParticipantStatus,
+    updateMeetingDuration,
+    addMeetingNote
+  };
 }
