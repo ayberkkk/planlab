@@ -13,7 +13,7 @@ interface RoomDetailClientProps {
 }
 
 export default function RoomDetailClient({ code }: RoomDetailClientProps) {
-  const { meetings, updateParticipantStatus, addMeetingNote } = useMeetings();
+  const { updateParticipantStatus, addMeetingNote } = useMeetings();
   const [meeting, setMeeting] = useState<Meeting | null>(null);
 
   useEffect(() => {
@@ -111,17 +111,15 @@ export default function RoomDetailClient({ code }: RoomDetailClientProps) {
           <MeetingNotes
             notes={meeting.notes || []}
             onAddNote={handleAddNote}
-            currentUser="Kullanıcı" // TODO: Add real user management
           />
         </div>
       </div>
 
       {/* Sağ Panel - Katılımcılar ve Sohbet */}
-      <RoomSidePanel
-        participants={meeting.participants}
-        meetingId={meeting.id}
-        onStatusChange={handleStatusChange}
-      />
+                <RoomSidePanel
+            participants={meeting.participants}
+            onStatusChange={handleStatusChange}
+          />
     </>
   );
 }

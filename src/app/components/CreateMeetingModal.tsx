@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { useTranslations } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Alert } from './Alert';
-import { Meeting, Participant, MeetingDuration } from '../types/meeting';
 import ParticipantStatusBadge from './ParticipantStatusBadge';
 
 // Zod şeması ile form validasyonu

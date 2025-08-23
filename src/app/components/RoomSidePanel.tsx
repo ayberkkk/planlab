@@ -7,7 +7,6 @@ import RoomChat from './RoomChat';
 
 interface RoomSidePanelProps {
   participants: Participant[];
-  meetingId: string;
   onStatusChange?: (participantId: string, status: Participant['status']) => void;
 }
 
@@ -15,7 +14,6 @@ type TabType = 'chat' | 'participants';
 
 export default function RoomSidePanel({ 
   participants, 
-  meetingId,
   onStatusChange 
 }: RoomSidePanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>('participants');
@@ -82,7 +80,7 @@ export default function RoomSidePanel({
             ))}
           </div>
         ) : (
-          <RoomChat roomId={meetingId} />
+          <RoomChat />
         )}
       </div>
     </div>

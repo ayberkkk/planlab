@@ -1,28 +1,33 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import RoomDetailClient from './RoomDetailClient';
 import RoomHeader from '@/app/components/RoomHeader';
 import Loading from './loading';
 
 interface PageProps {
-  params: { code: string };
+  params: Promise<{ code: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { code } = await params;
+  
   return {
-    title: `Toplantı: ${params.code} - Plan/Lab`,
-    description: `Plan/Lab toplantı detayları - Kod: ${params.code}`,
+    title: `Toplantı: ${code} - Plan/Lab`,
+    description: `Plan/Lab toplantı detayları - Kod: ${code}`,
   };
 }
 
-export default function RoomDetailPage({ params }: PageProps) {
+export default async function RoomDetailPage({ params }: PageProps) {
+  const { code } = await params;
+  
   return (
     <main className="min-h-screen bg-[#121212] flex flex-col">
-      <RoomHeader code={params.code} />
+      <RoomHeader code={code} />
       
       <div className="flex-1 flex">
         <Suspense fallback={<Loading />}>
-          <RoomDetailClient code={params.code} />
+          <RoomDetailClient code={code} />
         </Suspense>
       </div>
 
@@ -33,18 +38,18 @@ export default function RoomDetailPage({ params }: PageProps) {
               © {new Date().getFullYear()} Plan/Lab
             </p>
             <div className="flex items-center space-x-4">
-              <a
+              <Link
                 href="/help"
                 className="text-sm text-gray-400 hover:text-white transition-colors"
               >
                 Yardım
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
                 className="text-sm text-gray-400 hover:text-white transition-colors"
               >
                 İletişim
-              </a>
+              </Link>
             </div>
           </div>
         </div>

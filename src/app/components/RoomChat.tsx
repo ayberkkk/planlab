@@ -9,11 +9,7 @@ interface Message {
   time: string;
 }
 
-interface RoomChatProps {
-  roomId: string;
-}
-
-export default function RoomChat({ roomId }: RoomChatProps) {
+export default function RoomChat() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
 

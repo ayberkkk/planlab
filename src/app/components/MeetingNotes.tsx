@@ -7,10 +7,9 @@ import { Alert } from './Alert';
 interface MeetingNotesProps {
   notes: MeetingNote[];
   onAddNote: (content: string) => void;
-  currentUser: string;
 }
 
-export default function MeetingNotes({ notes, onAddNote, currentUser }: MeetingNotesProps) {
+export default function MeetingNotes({ notes, onAddNote }: MeetingNotesProps) {
   const [newNote, setNewNote] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
