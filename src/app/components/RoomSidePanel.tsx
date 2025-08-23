@@ -26,7 +26,7 @@ export default function RoomSidePanel({
       <div className="flex border-b border-gray-800">
         <button
           onClick={() => setActiveTab('participants')}
-          className={`flex-1 py-4 text-sm font-medium ${
+          className={`flex-1 py-4 text-sm font-medium transition-colors ${
             activeTab === 'participants'
               ? 'text-blue-400 border-b-2 border-blue-400'
               : 'text-gray-400 hover:text-white'
@@ -36,7 +36,7 @@ export default function RoomSidePanel({
         </button>
         <button
           onClick={() => setActiveTab('chat')}
-          className={`flex-1 py-4 text-sm font-medium ${
+          className={`flex-1 py-4 text-sm font-medium transition-colors ${
             activeTab === 'chat'
               ? 'text-blue-400 border-b-2 border-blue-400'
               : 'text-gray-400 hover:text-white'

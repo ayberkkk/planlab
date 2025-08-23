@@ -98,10 +98,11 @@ export default function RoomChat({ roomId }: RoomChatProps) {
           />
           <button
             type="submit"
-            className="group relative inline-flex items-center justify-center px-4 py-2 overflow-hidden font-semibold text-white transition duration-300 ease-out border-2 border-white/20 rounded-full shadow-md hover:shadow-lg"
+            className="btn-standard"
+            style={{ padding: '8px 16px' }}
           >
-            <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-50 transition-all duration-500 rounded-full blur-lg"></span>
-            <span className="relative z-10">
+            <span></span>
+            <span className="btn-content">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 className="h-5 w-5"

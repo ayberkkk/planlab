@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
-import { Meeting, Participant } from '../../types/meeting';
-import { useMeetings } from '../../hooks/useMeetings';
-import MeetingNotes from '../../components/MeetingNotes';
-import RoomSidePanel from '../../components/RoomSidePanel';
-import { Alert } from '../../components/Alert';
+import { Meeting, Participant } from '@/app/types/meeting';
+import { useMeetings } from '@/app/hooks/useMeetings';
+import MeetingNotes from '@/app/components/MeetingNotes';
+import RoomSidePanel from '@/app/components/RoomSidePanel';
+import { Alert } from '@/app/components/Alert';
 
 interface RoomDetailClientProps {
   code: string;

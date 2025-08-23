@@ -1,0 +1,102 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register"
+  },
+  "meeting": {
+    "create": "Create New Meeting",
+    "join": "Join Meeting",
+    "rooms": "Meeting Rooms",
+    "myMeetings": "My Meetings",
+    "newMeeting": "New Meeting",
+    "noMeetings": "No Meetings Yet",
+    "noMeetingsDesc": "You can start by creating a new meeting.",
+    "createMeeting": "Create Meeting",
+    "code": "Code",
+    "date": "Date",
+    "participants": "Participants",
+    "type": "Type",
+    "status": {
+      "completed": "Completed",
+      "today": "Today",
+      "planned": "Planned"
+    }
+  },
+  "modal": {
+    "createMeeting": "Create Meeting",
+    "meetingTitle": "Meeting Title",
+    "meetingTitlePlaceholder": "Plan/Lab - Project Meeting",
+    "participantCount": "Participant Count",
+    "lowIntensity": "5 Participants (Low Intensity)",
+    "mediumScale": "10 Participants (Medium Scale)",
+    "largeMeeting": "15 Participants (Large Meeting)",
+    "dateTime": "Meeting Date and Time",
+    "selectedDateTime": "Selected Date and Time:",
+    "participantInfo": "Participant Information",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Participant Name",
+    "email": "Email",
+    "emailPlaceholder": "Email Address",
+    "role": "Role (Optional)",
+    "rolePlaceholder": "Participant Role",
+    "addParticipant": "Add Participant",
+    "updateParticipant": "Update Participant",
+    "participantsList": "Participants",
+    "noParticipants": "No participants added yet",
+    "editParticipant": "Edit Participant",
+    "deleteParticipant": "Delete Participant",
+    "meetingCreated": "🎉 Meeting Created Successfully!",
+    "meetingCode": "Meeting Code:",
+    "validation": {
+      "titleMin": "Meeting title must be at least 3 characters",
+      "nameMin": "Name must be at least 2 characters",
+      "emailInvalid": "Please enter a valid email address",
+      "participantCountRange": "Participant count must be between 1 and 15",
+      "futureDate": "Meeting date must be in the future",
+      "minParticipants": "You must add at least one participant",
+      "maxParticipants": "You can add maximum {count} participants"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "errors": {
+    "notFound": "Page Not Found",
+    "notFoundDescription": "The page you are looking for could not be found or has been moved.",
+    "meetingNotFound": "Meeting Not Found",
+    "meetingNotFoundDescription": "No meeting found with the code you entered or the meeting may have expired.",
+    "contactOwner": "If you are sure the meeting code is correct, please contact the meeting owner."
+  },
+  "homepage": {
+    "title": "Plan/Lab Meeting Platform",
+    "subtitle": "Easily plan, manage and track your meetings. Fast, transparent and user-friendly experience.",
+    "features": {
+      "easyPlanning": {
+        "title": "Easy Planning",
+        "description": "Create your meeting with just a few clicks. Quickly enter details like participant count, date and title."
+      },
+      "uniqueLinks": {
+        "title": "Unique Links",
+        "description": "A unique code is generated for each meeting. Inviting your participants is very easy."
+      },
+      "detailedManagement": {
+        "title": "Detailed Management",
+        "description": "Automatically determine meeting type. Easily manage your small, medium or large scale meetings."
+      }
+    }
+  }
+}

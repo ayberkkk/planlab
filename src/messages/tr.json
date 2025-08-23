@@ -1,0 +1,102 @@
+{
+  "navigation": {
+    "home": "Ana Sayfa",
+    "about": "Hakkımızda",
+    "contact": "İletişim"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "register": "Kayıt Ol"
+  },
+  "meeting": {
+    "create": "Yeni Toplantı Oluştur",
+    "join": "Toplantıya Katıl",
+    "rooms": "Toplantı Odaları",
+    "myMeetings": "Toplantılarım",
+    "newMeeting": "Yeni Toplantı",
+    "noMeetings": "Henüz Toplantı Yok",
+    "noMeetingsDesc": "Yeni bir toplantı oluşturarak başlayabilirsiniz.",
+    "createMeeting": "Toplantı Oluştur",
+    "code": "Kod",
+    "date": "Tarih",
+    "participants": "Katılımcılar",
+    "type": "Tür",
+    "status": {
+      "completed": "Tamamlandı",
+      "today": "Bugün",
+      "planned": "Planlandı"
+    }
+  },
+  "modal": {
+    "createMeeting": "Toplantı Oluştur",
+    "meetingTitle": "Toplantı Başlığı",
+    "meetingTitlePlaceholder": "Plan/Lab - Proje Toplantısı",
+    "participantCount": "Katılımcı Sayısı",
+    "lowIntensity": "5 Katılımcı (Düşük Yoğunlukta)",
+    "mediumScale": "10 Katılımcı (Orta Ölçekli)",
+    "largeMeeting": "15 Katılımcı (Büyük Toplantı)",
+    "dateTime": "Toplantı Tarihi ve Saati",
+    "selectedDateTime": "Seçilen Tarih ve Saat:",
+    "participantInfo": "Katılımcı Bilgileri",
+    "fullName": "Ad Soyad",
+    "fullNamePlaceholder": "Katılımcı Adı",
+    "email": "E-posta",
+    "emailPlaceholder": "E-posta Adresi",
+    "role": "Rol (İsteğe Bağlı)",
+    "rolePlaceholder": "Katılımcı Rolü",
+    "addParticipant": "Katılımcı Ekle",
+    "updateParticipant": "Katılımcıyı Güncelle",
+    "participantsList": "Katılımcılar",
+    "noParticipants": "Henüz katılımcı eklenmedi",
+    "editParticipant": "Katılımcıyı Düzenle",
+    "deleteParticipant": "Katılımcıyı Sil",
+    "meetingCreated": "🎉 Toplantı Başarıyla Oluşturuldu!",
+    "meetingCode": "Toplantı Kodu:",
+    "validation": {
+      "titleMin": "Toplantı başlığı en az 3 karakter olmalıdır",
+      "nameMin": "İsim en az 2 karakter olmalıdır",
+      "emailInvalid": "Geçerli bir e-posta adresi giriniz",
+      "participantCountRange": "Katılımcı sayısı 1 ile 15 arasında olmalıdır",
+      "futureDate": "Toplantı tarihi gelecekte bir tarih olmalıdır",
+      "minParticipants": "En az bir katılımcı eklemelisiniz",
+      "maxParticipants": "En fazla {count} katılımcı ekleyebilirsiniz"
+    }
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata oluştu",
+    "success": "Başarılı",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "back": "Geri Dön",
+    "next": "İleri",
+    "previous": "Önceki"
+  },
+  "errors": {
+    "notFound": "Sayfa Bulunamadı",
+    "notFoundDescription": "Aradığınız sayfa bulunamadı veya taşınmış olabilir.",
+    "meetingNotFound": "Toplantı Bulunamadı",
+    "meetingNotFoundDescription": "Aradığınız toplantı koduna ait bir toplantı bulunamadı veya toplantı süresi dolmuş olabilir.",
+    "contactOwner": "Eğer toplantı kodunun doğru olduğundan eminseniz, toplantı sahibi ile iletişime geçin."
+  },
+  "homepage": {
+    "title": "Plan/Lab Toplantı Platformu",
+    "subtitle": "Toplantılarınızı kolayca planlayın, yönetin ve takip edin. Hızlı, şeffaf ve kullanıcı dostu bir deneyim.",
+    "features": {
+      "easyPlanning": {
+        "title": "Kolay Planlama",
+        "description": "Birkaç tıkla toplantınızı oluşturun. Katılımcı sayısı, tarih ve başlık gibi detayları hızlıca girin."
+      },
+      "uniqueLinks": {
+        "title": "Benzersiz Bağlantılar",
+        "description": "Her toplantı için benzersiz bir kod üretilir. Katılımcılarınızı davet etmek çok kolay."
+      },
+      "detailedManagement": {
+        "title": "Detaylı Yönetim",
+        "description": "Toplantı türünü otomatik belirleyin. Düşük, orta veya büyük ölçekli toplantılarınızı kolayca yönetin."
+      }
+    }
+  }
+}
